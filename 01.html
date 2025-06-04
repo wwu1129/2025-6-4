@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車</title>
+</head>
+<body>
+    <button id="show-total">購物車總額</button>
+    <button id="clear-cart">清空購物車</button>
+    <p id="cart-total-display">購物車總額為：$0</p>
+
+    <div class="product">
+        <img src="noodles-2.jpg" alt="noodles-2" width="150">
+        <p>$100</p>
+        <button class="add-to-cart" data-price="100">加入購物車</button>
+    </div>
+
+    <div class="product">
+        <img src="noodles-4.jpg" alt="noodles-4" width="150">
+        <p>$150</p>
+        <button class="add-to-cart" data-price="150">加入購物車</button>
+    </div>
+
+    <script>
+        // 初始化購物車總額
+        let cartTotal = parseInt(localStorage.getItem('cartTotal')) || 0;
+
+        // 更新畫面顯示
+        function updateCartDisplay() {
+            document.getElementById('cart-total-display').textContent = `購物車總額為：$${cartTotal}`;
+        }
+
+        updateCartDisplay(); // 初始化時顯示總額
+
+        // 加入購物車按鈕
+        const addButtons = document.querySelectorAll('.add-to-cart');
+        addButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const price = parseInt(button.dataset.price);
+                cartTotal += price;
+                localStorage.setItem('cartTotal', cartTotal);
+                updateCartDisplay();
+            });
+        });
+
+        // 顯示總額按鈕（這裡僅重新顯示，不用 alert）
+        document.getElementById('show-total').addEventListener('click', () => {
+            updateCartDisplay();
+        });
+
+        // 清空購物車
+        document.getElementById('clear-cart').addEventListener('click', () => {
+            cartTotal = 0;
+            localStorage.removeItem('cartTotal');
+            updateCartDisplay();
+        });
+    </script>
+</body>
+</html>
